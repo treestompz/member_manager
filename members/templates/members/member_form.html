@@ -1,0 +1,61 @@
+{% extends 'members/base.html' %}
+{% load form_tags %}
+{% block title %}
+    {% if form.instance.pk %}
+        Edit Team Member
+    {% else %}
+        Add New Team Member
+    {% endif %}
+{% endblock title %}
+{% block content %}
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2 class="mb-3">
+                {% if form.instance.pk %}
+                    Edit Team Member
+                {% else %}
+                    Add New Team Member
+                {% endif %}
+            </h2>
+            <p class="text-muted mb-3">
+                <small>
+                    {% if form.instance.pk %}
+                        Edit
+                    {% else %}
+                        Set
+                    {% endif %}
+                First Name, Last Name, Email, Phone Number, and Role.</small>
+            </p>
+            <form method="post" class="needs-validation" novalidate>
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="mb-3">
+                        {{ field.label_tag }}
+                        {% if field.help_text %}<small class="form-text text-muted">{{ field.help_text }}</small>{% endif %}
+                        {{ field|add_class:"form-control" }}
+                        {% if field.errors %}<div class="text-danger">{{ field.errors|striptags }}</div>{% endif %}
+                    </div>
+                {% endfor %}
+                <div class="d-flex justify-content-between">
+                    {% if form.instance.pk %}
+                        <a href="{% url 'member-delete' form.instance.pk %}"
+                           class="btn btn-danger">Delete</a>
+                    {% else %}
+                        <!-- placeholder for spacing when no Delete button -->
+                        <div></div>
+                    {% endif %}
+                    <div>
+                        <a href="{% url 'member-list' %}" class="btn btn-secondary me-2">Cancel</a>
+                        <button type="submit" class="btn btn-primary">
+                            {% if form.instance.pk %}
+                                Update
+                            {% else %}
+                                Save
+                            {% endif %}
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
