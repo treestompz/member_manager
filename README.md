@@ -54,16 +54,15 @@ We use a `.env` file to store values we do not want to check into version contro
 
 In this app, our only environment variable is Django's [`SECRET_KEY`](https://docs.djangoproject.com/en/5.0/ref/settings/#std-setting-SECRET_KEY)
 
-Create a `.env` file at the root of the project with the following contents:
-```plaintext
-SECRET_KEY=your_secret_key_here
-```
+1. Create a `.env` file at the root of the project with the following contents:
+   - ```plaintext
+     SECRET_KEY=your_secret_key_here
+     ```
 
-Replace `your_secret_key_here` with your own secret key. You can generate one with:
+2. Replace `your_secret_key_here` with your own secret key. You can generate one with:
+   - `python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'`
 
-`python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'`
-
-[Read more here.](https://humberto.io/blog/tldr-generate-django-secret-key/)
+[Read more about generating Django secret keys here.](https://humberto.io/blog/tldr-generate-django-secret-key/)
 
 ### Database Setup
 
@@ -106,7 +105,7 @@ For automatic code formatting, we use the following tools:
 - Django HTML Templates: [djLint](https://github.com/djlint/djlint)
   - [djLint VSCode Extension](https://marketplace.visualstudio.com/items?itemName=monosans.djlint)
 
-If you cannot setup your personal code editor to automatically use these, you can choose to use the CLI.
+If you cannot setup your personal code editor to automatically use these, you can choose to use the CLIs.
 
 ### Enjoy!
 
