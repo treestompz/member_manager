@@ -50,16 +50,18 @@ pip install -r requirements.txt
 
 ### Environment Variables: `.env` file
 
-We use a `.env` file to store values we do not want to check into version control. 
-
-In this app, our only environment variable is Django's [`SECRET_KEY`](https://docs.djangoproject.com/en/5.0/ref/settings/#std-setting-SECRET_KEY)
+We use a `.env` file to store values we do not want to check into version control (SECRET_KEY) and to allow environment-based customization (DEBUG, ALLOWED_HOSTS). 
 
 1. Create a `.env` file at the root of the project with the following contents:
    - ```plaintext
+     # SECURITY WARNING: keep the secret key used in production secret!
      SECRET_KEY=your_secret_key_here
+     # SECURITY WARNING: don't run with debug turned on in production!
+     DEBUG=True # True or False - You may want False if you want to view custom error pages (ex: 404.html)
+     ALLOWED_HOSTS=["127.0.0.1", "localhost"] # These are what you want for local development running on localhost. NOTE: Must set settings.ALLOWED_HOSTS if DEBUG is False.
      ```
 
-2. Replace `your_secret_key_here` with your own secret key. You can generate one with:
+2. Replace `your_secret_key_here` with your own [secret key](https://docs.djangoproject.com/en/5.0/ref/settings/#std-setting-SECRET_KEY). **NEVER SHARE YOUR SECRET KEY!** You can generate one with:
    - `python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'`
 
 [Read more about generating Django secret keys here.](https://humberto.io/blog/tldr-generate-django-secret-key/)
@@ -72,6 +74,8 @@ Before running the application, you'll need to apply migrations to set up your d
 python manage.py migrate
 ```
 It will default to using SQLite, so no need to worry about any other database setup.
+
+Note that if this is not your first time running the application, new migrations can be added and you will have to run `python manage.py migrate` again.
 
 ### Creating a Superuser
 
