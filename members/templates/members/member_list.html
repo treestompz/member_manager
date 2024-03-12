@@ -6,7 +6,7 @@
             <div>
                 <h2>Team Members</h2>
                 <p class="text-muted">
-                    <small>You have {{ members.count }} Team Members.</small>
+                    <small>Currently returning {{ page_obj.paginator.count }} Team Members.</small>
                 </p>
             </div>
             <a href="{% url 'member-add' %}"
@@ -73,5 +73,46 @@
                 </div>
             {% endfor %}
         </div>
+        <!-- Pagination Controls -->
+        <nav aria-label="Page Navigation" class="mt-4">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link"
+                           href="?page=1{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}"
+                           aria-label="First">First</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link"
+                           href="?page={{ page_obj.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}"
+                           aria-label="Previous">Previous</a>
+                    </li>
+                {% endif %}
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                        <li class="page-item active">
+                            <span class="page-link">{{ num }}</span>
+                        </li>
+                    {% else %}
+                        <li class="page-item">
+                            <a class="page-link"
+                               href="?page={{ num }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">{{ num }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link"
+                           href="?page={{ page_obj.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}"
+                           aria-label="Next">Next</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link"
+                           href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}"
+                           aria-label="Last">Last</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
     </div>
 {% endblock %}

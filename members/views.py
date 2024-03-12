@@ -9,6 +9,7 @@ from .models import Member
 class MemberListView(ListView):
     model = Member
     context_object_name = "members"
+    paginate_by = 5
 
     def get_queryset(self):
         search_query = self.request.GET.get("search", "").strip()
