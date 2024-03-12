@@ -2,7 +2,6 @@
 {% block title %}Team Member List{% endblock %}
 {% block content %}
     <div class="mb-5">
-        <!-- Increased bottom margin to mb-5 -->
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div>
                 <h2>Team Members</h2>
@@ -10,7 +9,10 @@
                     <small>You have {{ members.count }} Team Members.</small>
                 </p>
             </div>
-            <a href="{% url 'member-add' %}" class="btn btn-primary">Add Team Member</a>
+            <a href="{% url 'member-add' %}"
+               class="btn btn-primary"
+               role="button"
+               aria-label="Add Team Member">Add Team Member</a>
         </div>
         <!-- Search Form -->
         <form method="GET" action="{% url 'member-list' %}" class="mb-4">
@@ -18,10 +20,14 @@
                 <input type="text"
                        name="search"
                        class="form-control"
-                       placeholder="Search Team Members..."
+                       placeholder="Search by Name, Phone, Email..."
+                       aria-label="Search by Name, Phone, Email"
                        value="{{ request.GET.search|default:'' }}">
-                <button type="submit" class="btn btn-outline-primary" type="button">Search</button>
-                <a href="{% url 'member-list' %}" class="btn btn-outline-secondary">Clear</a>
+                <button type="submit" class="btn btn-outline-primary" aria-label="Search">Search</button>
+                <a href="{% url 'member-list' %}"
+                   class="btn btn-outline-secondary"
+                   role="button"
+                   aria-label="Clear Search">Clear</a>
             </div>
         </form>
         <div class="row g-4">
@@ -32,29 +38,38 @@
                             <h5 class="card-title">{{ member.first_name }} {{ member.last_name }}</h5>
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item">
-                                    <i class="bi bi-telephone-fill"></i> {{ member.phone_number }}
+                                    <i class="bi bi-telephone-fill" aria-hidden="true"></i> <span aria-label="Phone Number:">{{ member.phone_number }}</span>
                                 </li>
                                 <li class="list-group-item">
-                                    <i class="bi bi-envelope-fill"></i> {{ member.email }}
+                                    <i class="bi bi-envelope-fill" aria-hidden="true"></i> <span aria-label="Email:">{{ member.email }}</span>
                                 </li>
                             </ul>
                             <p class="mt-2">
-                                <span class="badge {% if member.role == 'Admin' %}bg-dark{% else %}bg-secondary{% endif %}">{{ member.role }}</span>
+                                <span class="badge {% if member.role == 'Admin' %}bg-dark{% else %}bg-secondary{% endif %}"
+                                      aria-label="Role: {{ member.role }}">{{ member.role }}</span>
                             </p>
                         </div>
                         <div class="card-footer bg-transparent">
                             <div class="d-flex justify-content-end">
                                 <a href="{% url 'member-delete' member.id %}"
-                                   class="btn btn-danger btn-sm me-2">Delete</a>
+                                   class="btn btn-danger btn-sm me-2"
+                                   role="button"
+                                   aria-label="Delete {{ member.first_name }} {{ member.last_name }}">Delete</a>
                                 <a href="{% url 'member-edit' member.id %}"
-                                   class="btn btn-primary btn-sm">Edit</a>
+                                   class="btn btn-primary btn-sm"
+                                   role="button"
+                                   aria-label="Edit {{ member.first_name }} {{ member.last_name }}">Edit</a>
                             </div>
                         </div>
                     </div>
                 </div>
             {% empty %}
                 <div class="col-12">
-                    <p>No members found.</p>
+                    {% if request.GET.search %}
+                        <p>We found no Team Members for this search.</p>
+                    {% else %}
+                        <p>There are currently no Team Members added.</p>
+                    {% endif %}
                 </div>
             {% endfor %}
         </div>
